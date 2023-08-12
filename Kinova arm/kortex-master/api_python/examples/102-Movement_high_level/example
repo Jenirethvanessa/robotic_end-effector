@@ -1,0 +1,24 @@
+import utilities
+from twist_command import example_move_to_home_position
+from utilities import DeviceConnection
+from kortex_api.autogen.client_stubs.BaseClientRpc import BaseClient
+
+args = {
+	"ip": "192.168.1.10",
+	"username": "admin",
+	"password": "admin"
+}
+
+
+
+with utilities.DeviceConnection.createTcpConnection(args) as router:
+
+        # Create required services
+        base = BaseClient(router)
+
+        # Example core
+        success = example_move_to_home_position(base)
+
+# router = DeviceConnection.createTcpConnection(args)
+# base = BaseClient(router)
+# success = example_move_to_home_position(base)

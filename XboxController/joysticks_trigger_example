@@ -1,0 +1,77 @@
+import pygame
+
+def init_xbox_controller():
+    pygame.init()
+    pygame.joystick.init()
+
+    # Check if any controllers are connected
+    if pygame.joystick.get_count() == 0:
+        print("No controllers found. Make sure your Xbox One controller is connected.")
+        return None
+
+    controller = pygame.joystick.Joystick(0)
+    controller.init()
+    return controller
+
+
+class TextPrint:
+    def __init__(self, screen):
+        self.reset()
+        self.font = pygame.font.Font(None, 25)
+        self.screen = screen
+
+    def tprint(self, text):
+        text_bitmap = self.font.render(text, True, (0, 0, 0))
+        self.screen.blit(text_bitmap, (self.x, self.y))
+        self.y += self.line_height
+
+    def reset(self):
+        self.x = 10
+        self.y = 10
+        self.line_height = 15
+
+    def indent(self):
+        self.x += 10
+
+    def unindent(self):
+        self.x -= 10
+
+
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((150, 70))
+    pygame.display.set_caption("Joystick example")
+    clock = pygame.time.Clock()
+    text_print = TextPrint(screen)
+
+    controller = None
+    previous_hat = None
+    try:
+        print("starting")
+        while True:
+            screen.fill((255, 255, 255))
+            text_print.reset()
+
+            for event in pygame.event.get():
+                if event.type == pygame.JOYDEVICEADDED:
+                    controller = pygame.joystick.Joystick(event.device_index)
+                    print(f"Joystick {controller.get_instance_id()} connencted")
+
+            if controller is not None:
+                hat = controller.get_hat(0)
+                if hat == (0, 1):
+                    text_print.tprint("Last button: UP")
+
+                left_trigger_value = controller.get_axis(4)
+                text_print.tprint(f"Axis {left_trigger_value}")
+
+            pygame.display.flip()
+            clock.tick(30)
+
+            
+    except KeyboardInterrupt:
+        pygame.quit()
+
+if __name__ == "__main__":
+    main()
+    pygame.quit()
