@@ -1,6 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./Kinova arm/kortex-master/api_python/examples/102-Movement_high_level",
-        "./Kinova arm/kortex-master/api_python/examples"
-    ]
-}
