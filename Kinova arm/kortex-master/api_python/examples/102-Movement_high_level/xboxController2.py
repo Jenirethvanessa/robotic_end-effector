@@ -130,12 +130,6 @@ try:
                         # Example core
                         success, angle_receive = wrist_rotation(base, base_cyclic, angle)
 
-        # Read the data from the serial port and decode it
-        analog_value = arduino.readline().decode("latin")
-        arduino_csv.write(analog_value)
-        #print(len(analog_value))
-
-        ############################ NEW LINE ###########
         
         FSR_str = analog_value.split(',')
         if len(FSR_str) > 1:
@@ -233,6 +227,10 @@ try:
                     #     joystick.rumble(0, 0.5, 10)
                     elif FSR > 900:
                         joystick.rumble(0, 0.8, 10)
+
+        # Read the data from the serial port and decode it
+        analog_value = arduino.readline().decode("latin")
+        arduino_csv.write(f"{trigger_value}, {analog_value}")  
 
         pygame.display.flip()
         #clock.tick(30)
