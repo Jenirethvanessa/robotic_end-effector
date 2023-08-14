@@ -211,6 +211,7 @@ try:
                 trigger_value = joystick.get_axis(5)
                 if trigger_value > -1.1:
                     trigger_value =  (1 - ((trigger_value + 1) / 2)) * 10
+                    #print(trigger_value)
                     trigger_value = str(trigger_value)[:2]
 
                     if previous_trigger_value != trigger_value:
