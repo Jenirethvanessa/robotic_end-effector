@@ -59,7 +59,7 @@ person_id = input("Enter person identification number: ")
 experiment_num = input("Enter experiment number: ")
 trial_num = input("Enter trial number: ")
 vibration_feedback = input("Enter 'on' or 'off' to use haptic feedback:")
-
+trigger_value = ""
 
 file_suffix = f"person_{person_id}_exp_{experiment_num}_trial_{trial_num}.csv"
 arduino_csv = open(f"arduino_{file_suffix}", "w")
@@ -130,12 +130,16 @@ try:
                         # Example core
                         success, angle_receive = wrist_rotation(base, base_cyclic, angle)
 
-        
+        # Read the data from the serial port and decode it
+        analog_value = arduino.readline().decode("latin")
+        arduino_csv.write(f"{trigger_value}, {analog_value}")  
+
         FSR_str = analog_value.split(',')
         if len(FSR_str) > 1:
             FSR = int(FSR_str[1])
         else:
             FSR = 0
+
         # if len(analog_value) == 8:
         # print(analog_value)
         # print(FSR)
@@ -228,9 +232,7 @@ try:
                     elif FSR > 900:
                         joystick.rumble(0, 0.8, 10)
 
-        # Read the data from the serial port and decode it
-        analog_value = arduino.readline().decode("latin")
-        arduino_csv.write(f"{trigger_value}, {analog_value}")  
+
 
         pygame.display.flip()
         #clock.tick(30)
