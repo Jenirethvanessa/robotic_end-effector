@@ -32,19 +32,11 @@ open_close = input("Is the tool open or close: ")
 
 file_suffix = f"tool_{tool}_{open_close}.csv"
 wrist = open(f"wrist_{file_suffix}", "w")
-angle_receive = 0
-analog_value = 0
-
+angle_receive = ""
+analog_value = ""
 
 try:
     for i in range(36):
-
-        angle = 10
-        analog_value = arduino.readline().decode("latin")
-        print(f"Analog value: {analog_value}")
-        wrist.write(f"{angle_receive}, {analog_value} \n")
-        wrist.flush()
-
             
         with utilities.DeviceConnection.createTcpConnection(args) as router:
         # Create required services
@@ -54,14 +46,11 @@ try:
             # Example core
             success, angle_receive = wrist_rotation(base, base_cyclic, angle)
 
-        previous_analog_value = analog_value
-        while analog_value == previous_analog_value:
-            analog_value = arduino.readline().decode("latin")
-            print(f"Analog value: {analog_value}")
+        analog_value = arduino.readline().decode("latin")
+        print(f"Analog value: {analog_value}")
         wrist.write(f"{angle_receive}, {analog_value} \n")
         wrist.flush()
        
-
 except Exception as e:
     raise e
 finally:
