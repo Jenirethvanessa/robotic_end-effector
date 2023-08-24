@@ -44,7 +44,7 @@ arduino = serial.Serial('COM10', 9600)
 
 # Arguments for the robotic arm
 args = {
-	"ip": "192.168.1.10",
+	"ip": "192.168.1.12",
 	"username": "admin",
 	"password": "admin"
 }
@@ -129,9 +129,10 @@ try:
                         base_cyclic = BaseCyclicClient(router)
                         # Example core
                         success, angle_receive = wrist_rotation(base, base_cyclic, angle)
-
+                        
         # Read the data from the serial port and decode it
         analog_value = arduino.readline().decode("latin")
+        print(analog_value)
         arduino_csv.write(f"{trigger_value}, {analog_value}")  
 
         FSR_str = analog_value.split(',')
