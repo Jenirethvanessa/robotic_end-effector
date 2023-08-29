@@ -47,22 +47,24 @@ args = {
 	"password": "admin"
 }
 
-# Main program loop
 running = True
 controller = None
 previous_hat = None
 previous_trigger_value = ""
 
+# Requesting data for the csv file name
 person_id = input("Enter person identification number: ")
 experiment_num = input("Enter experiment number: ")
 trial_num = input("Enter trial number: ")
 vibration_feedback = input("Enter 'on' or 'off' to use haptic feedback:")
 trigger_value = ""
 
+# Creating a cvs file to collect data
 file_suffix = f"person_{person_id}_exp_{experiment_num}_trial_{trial_num}.csv"
 arduino_csv = open(f"arduino_{file_suffix}", "w")
 time_csv = open(f"time_{file_suffix}", "w")
 
+# Main program loop
 try:
     while running:
         # Check for events
@@ -103,14 +105,10 @@ try:
                     time_csv.write(f"close,{time.time()}\n")
                     arduino.write(b'c\n')
 
-                elif button ==6:
-                    # with utilities.DeviceConnection.createTcpConnection(args) as router:
-                    #     # Create required services
-                    #     base = BaseClient(router)
-                    #     # Example core
-                    #     success = example_move_to_home_position(base)
+                elif button ==6: 
                     arduino.write(b's\n')
 
+                # Initial position for forceps test
                 elif button ==7:
                     with utilities.DeviceConnection.createTcpConnection(args) as router:
                         # Create required services
@@ -119,6 +117,8 @@ try:
                         # Example core
                         success = example_move_to_initial_position(base, base_cyclic)
                         #success = example_move_to_retract_position(base)
+
+                # wirst rotation movement 
                 elif button == 9:
                     with utilities.DeviceConnection.createTcpConnection(args) as router:
                         # Create required services
@@ -133,19 +133,12 @@ try:
         print(analog_value)
         arduino_csv.write(f"{trigger_value}, {analog_value}")  
 
+        # Selecting the FSR value from the analogue data received from arduino
         FSR_str = analog_value.split(',')
         if len(FSR_str) > 1:
             FSR = int(FSR_str[1])
         else:
             FSR = 0
-
-        # if len(analog_value) == 8:
-        # print(analog_value)
-        # print(FSR)
-        #     FSR = int(analog_value[-4:-1])
-        #     print(FSR)
-        # else: 
-        #     FSR = 0
 
         if controller is not None:
             hat = joystick.get_hat(0)
@@ -159,8 +152,6 @@ try:
                         base_cyclic = BaseCyclicClient(router)
                         # Example core
                         success = example_cartesian_action_movement_up(base, base_cyclic)
-                        
-
                 elif hat == (0, -1):
                     print("Last button: DOWN")
                     with utilities.DeviceConnection.createTcpConnection(args) as router:
@@ -191,6 +182,8 @@ try:
 
                 previous_hat = hat
 
+            #### Continuous mode with two triggers #####
+
             # if joystick.get_axis(4) != 0.0:
             #     left_trigger_value = joystick.get_axis(4)
             #     if left_trigger_value > -0.9:
@@ -204,16 +197,31 @@ try:
             #         #if left_trigger_value < 0.1:
             #             #joystick.rumble(0, 0.7, 500)
 
+            #  if joystick.get_axis(5) != 0.0:
+            #     right_trigger_value = joystick.get_axis(5)
+            #     if right_trigger_value > -0.9:
+            #         #print(f"Axis {right_trigger_value}")
+            #         right_trigger_value =  (1 - ((right_trigger_value + 1) / 2)) * 10
+            #         right_trigger_value_str = f'R{str(right_trigger_value)[:2]}\n'
+            #         if previous_trigger_value != right_trigger_value_str:
+            #             arduino.write(right_trigger_value_str.encode())
+            #             previous_trigger_value = right_trigger_value_str
+            #         #print(right_trigger_value_str[0:4])
+            #         #if right_trigger_value < 0.1:
+            #         if FSR > 750 :
+            #             joystick.rumble(0, 0.7, 500)
+                
+            #### Continuous mode using one trigger ####
             if joystick.get_axis(5) != 0.0:
                 trigger_value = joystick.get_axis(5)
                 if trigger_value > -1.1:
+                    # Value is converter to an scale from 0 to 10
                     trigger_value =  (1 - ((trigger_value + 1) / 2)) * 10
-                    #print(trigger_value)
+
                     trigger_value = str(trigger_value)[:2]
 
                     if previous_trigger_value != trigger_value:
-                        #print(previous_trigger_value)
-
+                        
                         if previous_trigger_value > trigger_value:
                             close_trigger_value_str = f'R{str(trigger_value)}\n'
                             arduino.write(close_trigger_value_str.encode())
@@ -224,27 +232,24 @@ try:
                             arduino.write(open_trigger_value_str.encode())
                             previous_trigger_value = trigger_value
                 if vibration_feedback == 'on':
+                    # First level of vibration
                     if FSR> 800 and FSR < 900:
                         joystick.rumble(0, 0.1, 10)
-                    # elif FSR > 850 and FSR < 900:
-                    #     joystick.rumble(0, 0.5, 10)
+                    # Second level of vibration
                     elif FSR > 900:
                         joystick.rumble(0, 0.8, 10)
 
 
 
         pygame.display.flip()
-        #clock.tick(30)
         
 
 except Exception as e:
     raise e
 finally:
 
+    # Cleanup
     arduino_csv.close()
     time_csv.close()
-
-    # Cleanup
     pygame.quit()
-    #arduino.close()
 
