@@ -130,7 +130,7 @@ try:
                         
         # Read the data from the serial port and decode it
         analog_value = arduino.readline().decode("latin")
-        print(analog_value)
+        #print(analog_value)
         arduino_csv.write(f"{trigger_value}, {analog_value}")  
 
         # Selecting the FSR value from the analogue data received from arduino
