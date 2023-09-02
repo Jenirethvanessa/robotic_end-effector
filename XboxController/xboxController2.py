@@ -2,6 +2,7 @@ import pygame
 import serial
 import pandas as pd
 import time
+from datetime import datetime
 
 import utilities
 from utilities import DeviceConnection
@@ -63,6 +64,8 @@ trigger_value = ""
 file_suffix = f"person_{person_id}_exp_{experiment_num}_trial_{trial_num}.csv"
 arduino_csv = open(f"arduino_{file_suffix}", "w")
 time_csv = open(f"time_{file_suffix}", "w")
+
+start_time = datetime.now()
 
 # Main program loop
 try:
@@ -131,7 +134,8 @@ try:
         # Read the data from the serial port and decode it
         analog_value = arduino.readline().decode("latin")
         #print(analog_value)
-        arduino_csv.write(f"{trigger_value}, {analog_value}")  
+        time_difference = (datetime.now() - start_time)
+        arduino_csv.write(f"{time_difference.total_seconds()}, {trigger_value}, {analog_value}")  
 
         # Selecting the FSR value from the analogue data received from arduino
         FSR_str = analog_value.split(',')
