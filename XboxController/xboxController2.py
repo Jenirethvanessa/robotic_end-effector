@@ -121,7 +121,7 @@ try:
                         success = example_move_to_initial_position(base, base_cyclic)
                         #success = example_move_to_retract_position(base)
 
-                # wirst rotation movement 
+                # wirst rotation movement (for wrist test rotation only)
                 elif button == 9:
                     with utilities.DeviceConnection.createTcpConnection(args) as router:
                         # Create required services
@@ -133,7 +133,6 @@ try:
                         
         # Read the data from the serial port and decode it
         analog_value = arduino.readline().decode("latin")
-        #print(analog_value)
         time_difference = (datetime.now() - start_time)
         arduino_csv.write(f"{time_difference.total_seconds()}, {trigger_value}, {analog_value}")  
 
@@ -186,7 +185,7 @@ try:
 
                 previous_hat = hat
 
-            #### Continuous mode with two triggers #####
+            #### Uncomment for continuous mode with two triggers #####
 
             # if joystick.get_axis(4) != 0.0:
             #     left_trigger_value = joystick.get_axis(4)

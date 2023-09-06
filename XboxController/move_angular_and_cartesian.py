@@ -94,13 +94,6 @@ def example_move_to_initial_position(base, base_cyclic):
     cartesian_pose.theta_y = 0
     cartesian_pose.theta_z = 90
 
-    # cartesian_pose.x = 0
-    # cartesian_pose.y = 0.2
-    # cartesian_pose.z = 0.35
-    # cartesian_pose.theta_x = 180
-    # cartesian_pose.theta_y = -0.5
-    # cartesian_pose.theta_z = 90
-
     e = threading.Event()
     notification_handle = base.OnNotificationActionTopic(
         check_for_end_or_abort(e),
@@ -119,41 +112,7 @@ def example_move_to_initial_position(base, base_cyclic):
     else:
         print("Timeout on action notification wait")
     return finished
-
-    # # Make sure the arm is in Single Level Servoing mode
-    # base_servo_mode = Base_pb2.ServoingModeInformation()
-    # base_servo_mode.servoing_mode = Base_pb2.SINGLE_LEVEL_SERVOING
-    # base.SetServoingMode(base_servo_mode)
     
-    # # Move arm to ready position
-    # print("Moving the arm to a safe position")
-    # action_type = Base_pb2.RequestedActionType()
-    # action_type.action_type = Base_pb2.REACH_JOINT_ANGLES
-    # action_list = base.ReadAllActions(action_type)
-    # action_handle = None
-    # for action in action_list.action_list:
-    #     if action.name == "Initial Position":
-    #         action_handle = action.handle
-
-    # if action_handle == None:
-    #     print("Can't reach safe position. Exiting")
-    #     return False
-
-    # e = threading.Event()
-    # notification_handle = base.OnNotificationActionTopic(
-    #     check_for_end_or_abort(e),
-    #     Base_pb2.NotificationOptions()
-    # )
-
-    # base.ExecuteActionFromReference(action_handle)
-    # finished = e.wait(TIMEOUT_DURATION)
-    # base.Unsubscribe(notification_handle)
-
-    # if finished:
-    #     print("Safe position reached")
-    # else:
-    #     print("Timeout on action notification wait")
-    # return finished    
 
 def example_angular_action_movement(base):
     

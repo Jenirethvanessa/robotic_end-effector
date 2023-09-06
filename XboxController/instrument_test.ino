@@ -55,7 +55,6 @@ void loop() {
 //  Serial.print("Analog reading FSR= ");
   Serial.print(fsrReading);     // print the raw analog reading
   Serial.print("\n");
-  //Serial.println("Please enter one of the following options: 'h' to hold, 'r' to reset, 1 for scissors, 2 for needle holder, 3 for forceps, 'o' for opening and 'c' for closing");
 
   // Keyboard control
   if (Serial.available()>0) {
