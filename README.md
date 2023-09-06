@@ -16,5 +16,6 @@
 11. [Task2_mean_trial.ipynb](Task2_mean_trial.ipynb): analysis and plots for Task 2 (mean trial)
 12. [trigger_mapping.ipynb](trigger_mapping.ipynb): mapping of pressed trigger vs the distance between the jaws
 13. [wrist_twist.ipynb](wrist_twist.ipynb): graph of the force vs angle per isntrument
-14. [Results.xlsx](Results.xlsx): results of the questionnaire, the time spent of task 1 and time for changing instrument
-15. [twist_test.xlsx](twist_test.xlsx): results of force vs angle of rotation while holding the three instruments when they are completely close and completely open
+14. [kortex_api-2.6.0.post3-py3-none-any.whl](https://github.com/Kinovarobotics/kortex/tree/master): link with instructons to install Kortex API 
+15. [Results.xlsx](Results.xlsx): results of the questionnaire, the time spent of task 1 and time for changing instrument
+16. [twist_test.xlsx](twist_test.xlsx): results of force vs angle of rotation while holding the three instruments when they are completely close and completely open
