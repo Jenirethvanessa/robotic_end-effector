@@ -5,10 +5,12 @@ This repository contains all the scripts created for the Modular Robotic End-eff
 ## Installation
 
 1. Create an environment with Python `>= 3.9.6` and install the dependencies listed in `requirements.txt`
+
+On Windows:
 ```
 python3 -m venv effector
-source env/bin/activate
-pip install -f requirements.txt
+.\effector\Scripts\activate
+pip install -r requirements.txt
 ```
 
 2. Install the Kortex Python API either by installing the [wheel included in this repository](kortex_api-2.6.0.post3-py3-none-any.whl) or by following the instructions in [their github](https://github.com/Kinovarobotics/kortex/blob/master/linked_md/python_quick_start.md)
