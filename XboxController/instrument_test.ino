@@ -19,8 +19,8 @@ bool isMotorRunningClockwise = false;
 bool isMotorRunningCounterClockwise = false;
 
 // Position variables
-int initialMaximumPosition = 920; // Slider initial maximum position (real value: 934)
-int initialMinimumPosition = 290; // Slider initial minimum position (real value: 270)
+int initialMaximumPosition = 920; // Slider initial maximum position 
+int initialMinimumPosition = 290; // Slider initial minimum position 
 int holdValue = 910; // FSR value when holding instrument
 int minPosition = initialMinimumPosition; // Slider maximum closing position without instrument 
 int maxPosition = initialMaximumPosition;
@@ -137,8 +137,8 @@ void loop() {
            case '1' : 
                 newMaxPosition = initialMaximumPosition;
                 newMinPosition = initialMinimumPosition;
-                maxPosition = 640; //real value: 642
-                minPosition = 360; //real value: 326
+                maxPosition = 640; 
+                minPosition = 360; 
                 motorSpeed = 90;
                 holdValue = 928;
                 holding = true;
@@ -154,8 +154,8 @@ void loop() {
            case '2' : 
                 newMaxPosition = initialMaximumPosition;
                 newMinPosition = initialMinimumPosition;
-                maxPosition = 550; //real value: 646
-                minPosition = 400; //real value: 
+                maxPosition = 550; 
+                minPosition = 400; 
                 motorSpeed = 80;
                 holdValue = 900;
                 holding = true;
@@ -173,8 +173,8 @@ void loop() {
                 newMaxPosition = initialMaximumPosition;
                 newMinPosition = initialMinimumPosition;
                 //maxPosition = sliderReading;
-                maxPosition = 420; // real reading: 394
-                minPosition = 340; // real reading: 300
+                maxPosition = 450; 
+                minPosition = 340; 
                 motorSpeed = 80;
                 holdValue = 900;
                 holding = true;
